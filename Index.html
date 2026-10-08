@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vadodara Lead Outreach & WhatsApp Campaign Tracker</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- SheetJS for Excel and CSV import/export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            whatsapp: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              dark: '#128c7e',
+              chat: '#25D366'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 4px;
+    }
+    /* Smooth transitions */
+    .lead-card {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .lead-card:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
+        
+        <!-- App Identity -->
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 shrink-0">
+            <!-- WhatsApp Chat Icon -->
+            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766zm3.376 8.204c-.14.394-.712.75-1.026.797-.314.048-.727.069-1.18-.076-.282-.09-.646-.213-1.127-.42-1.979-.854-3.262-2.846-3.361-2.977-.099-.131-.806-1.072-.806-2.046 0-.974.51-1.453.692-1.65.182-.197.397-.247.53-.247.132 0 .265.001.38.007.123.006.287-.046.449.342.164.394.562 1.37.611 1.47.049.099.082.214.016.345-.065.132-.098.214-.197.329-.098.115-.208.257-.297.345-.098.099-.2.206-.086.403.115.197.511.843 1.096 1.364.753.671 1.388.878 1.585.976.197.099.313.082.428-.049.115-.132.493-.574.625-.771.132-.197.263-.164.444-.099.181.066 1.15.542 1.348.641.197.098.33.148.378.23.049.082.049.476-.091.87zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.981-1.306C8.423 21.536 10.15 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+            </svg>
+          </div>
+          <div class="min-w-0">
+            <h1 class="font-display font-bold text-lg sm:text-xl text-slate-900 tracking-tight leading-tight truncate flex items-center gap-2">
+              Vadodara Lead Tracker
+              <span class="hidden sm:inline-flex px-2 py-0.5 text-xs font-semibold rounded-md bg-emerald-100 text-emerald-800 border border-emerald-200">
+                Outreach Engine
+              </span>
+            </h1>
+            <p class="text-xs text-slate-500 truncate hidden xs:block">
+              Cold Calling & Personalized WhatsApp Campaign Portal
+            </p>
+          </div>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+          
+          <!-- Import Excel / CSV Button -->
+          <button id="btnOpenUploadModal" class="inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:border-slate-400 transition-colors shadow-xs">
+            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+            </svg>
+            <span class="hidden sm:inline">Import</span> Excel
+          </button>
+
+          <!-- Export Excel Button -->
+          <button id="btnExportData" class="inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:border-slate-400 transition-colors shadow-xs">
+            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            <span class="hidden md:inline">Export</span> Excel
+          </button>
+
+          <!-- Add Single Lead Button -->
+          <button id="btnOpenAddModal" class="inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition shadow-xs shadow-indigo-600/30">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            <span class="hidden xs:inline">New Lead</span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6">
+
+    <!-- Overview Stats Banner -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      
+      <!-- Total Leads Metric -->
+      <div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs flex items-center justify-between">
+        <div>
+          <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Leads</p>
+          <h3 id="statTotalLeads" class="text-2xl font-bold text-slate-900 mt-1">0</h3>
+        </div>
+        <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Completed Metric -->
+      <div class="bg-white p-4 rounded-xl border border-emerald-100 shadow-xs flex items-center justify-between bg-emerald-50/20">
+        <div>
+          <p class="text-xs font-medium text-emerald-700 uppercase tracking-wider">Completed / Contacted</p>
+          <h3 id="statCompletedLeads" class="text-2xl font-bold text-emerald-700 mt-1">0</h3>
+        </div>
+        <div class="w-10 h-10 rounded-lg bg-emerald-100/70 flex items-center justify-center text-emerald-700">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Pending / Incomplete Metric -->
+      <div class="bg-white p-4 rounded-xl border border-amber-100 shadow-xs flex items-center justify-between bg-amber-50/20">
+        <div>
+          <p class="text-xs font-medium text-amber-700 uppercase tracking-wider">Pending / Incomplete</p>
+          <h3 id="statPendingLeads" class="text-2xl font-bold text-amber-700 mt-1">0</h3>
+        </div>
+        <div class="w-10 h-10 rounded-lg bg-amber-100/70 flex items-center justify-center text-amber-700">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Outreach Rate -->
+      <div class="bg-white p-4 rounded-xl border border-indigo-100 shadow-xs flex items-center justify-between bg-indigo-50/20">
+        <div>
+          <p class="text-xs font-medium text-indigo-700 uppercase tracking-wider">Conversion Pace</p>
+          <h3 id="statProgressPct" class="text-2xl font-bold text-indigo-700 mt-1">0%</h3>
+        </div>
+        <div class="w-10 h-10 rounded-lg bg-indigo-100/70 flex items-center justify-center text-indigo-700">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-4 sm:p-5 space-y-4">
+      
+      <!-- Section Navigation Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-indigo-600 text-[11px] font-bold text-white">30</span>
+            <h2 class="text-base font-bold text-slate-900 font-display">
+              Sections Batching (30 Leads / Block)
+            </h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Focus on daily outreach targets by tackling one chunk of 30 leads at a time.
+          </p>
+        </div>
+
+        <!-- Section Progress Indicator -->
+        <div class="flex items-center gap-3 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200/60">
+          <div class="text-right">
+            <div id="sectionCounterText" class="text-xs font-semibold text-slate-700">
+              Section: 0 / 30 Done
+            </div>
+            <div id="sectionPercentText" class="text-[11px] text-slate-500">
+              0% Finished
+            </div>
+          </div>
+          <!-- Mini Circular or bar progress -->
+          <div class="w-20 bg-slate-200 h-2 rounded-full overflow-hidden">
+            <div id="sectionProgressBar" class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Pills Carousel -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar text-sm" id="sectionTabsContainer">
+        <!-- Rendered dynamically -->
+      </div>
+
+    </div>
+
+    <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+      
+      <!-- Search Box & Filter Dropdowns -->
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3 flex-1">
+        
+        <!-- Live Search -->
+        <div class="relative flex-1 min-w-[200px] max-w-md">
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search business, phone, locality, niche..." 
+            class="w-full pl-9 pr-4 py-2 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-2xs transition"
+          />
+          <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+
+        <!-- Status Filter Pills -->
+        <div class="inline-flex p-1 bg-slate-200/70 rounded-xl text-xs font-medium text-slate-600">
+          <button data-filter="all" class="status-filter-btn px-3 py-1.5 rounded-lg bg-white text-slate-900 shadow-2xs font-semibold">
+            All (<span id="filterAllCount">0</span>)
+          </button>
+          <button data-filter="pending" class="status-filter-btn px-3 py-1.5 rounded-lg hover:text-slate-900">
+            Incomplete (<span id="filterPendingCount">0</span>)
+          </button>
+          <button data-filter="completed" class="status-filter-btn px-3 py-1.5 rounded-lg hover:text-slate-900">
+            Completed (<span id="filterCompletedCount">0</span>)
+          </button>
+        </div>
+
+        <!-- Locality Filter Dropdown -->
+        <select id="localityFilterSelect" class="py-2 pl-3 pr-8 text-xs sm:text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-2xs">
+          <option value="">All Localities</option>
+          <!-- Dynamic Localities -->
+        </select>
+
+      </div>
+
+      <!-- Outreach Options & View Switcher -->
+      <div class="flex items-center justify-between sm:justify-end gap-3 shrink-0">
+        
+        <!-- Auto-Mark Complete on WhatsApp Click Toggle -->
+        <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-600 bg-white border border-slate-200 px-3 py-2 rounded-xl shadow-2xs">
+          <input type="checkbox" id="autoCompleteOnWhatsApp" checked class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 accent-emerald-600">
+          <span class="font-medium">Auto-complete on Send</span>
+        </label>
+
+        <!-- View Mode: Card / Dense Table (for desktop) -->
+        <div class="hidden sm:inline-flex p-1 bg-slate-200/70 rounded-xl text-xs">
+          <button id="btnViewCards" title="Card View" class="p-1.5 rounded-lg bg-white text-slate-800 shadow-2xs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+            </svg>
+          </button>
+          <button id="btnViewTable" title="Table View" class="p-1.5 rounded-lg text-slate-600 hover:text-slate-900">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Reset Sample Data Button -->
+        <button id="btnResetData" title="Reload Vadodara Sample Dataset" class="p-2 text-slate-500 hover:text-rose-600 bg-white border border-slate-200 rounded-xl transition hover:border-rose-200 shadow-2xs">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div id="leadsContainer">
+      <!-- Cards View Wrapper -->
+      <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Dynamic Cards Inserted Here -->
+      </div>
+
+      <!-- Table View Wrapper (Hidden by default) -->
+      <div id="tableWrapper" class="hidden bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead class="bg-slate-50 text-slate-600 uppercase text-[11px] font-semibold border-b border-slate-200 tracking-wider">
+              <tr>
+                <th class="py-3 px-4 w-12 text-center">#</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4">Business Details</th>
+                <th class="py-3 px-4">Phone / Contact</th>
+                <th class="py-3 px-4">Locality</th>
+                <th class="py-3 px-4">Angle & Message</th>
+                <th class="py-3 px-4 text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody" class="divide-y divide-slate-100 font-normal text-slate-700">
+              <!-- Dynamic Table Rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="hidden text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-slate-300">
+        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+          </svg>
+        </div>
+        <h3 class="text-base font-semibold text-slate-800">No leads found in this section</h3>
+        <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1">Try switching sections, clearing search filters, or import your Excel sheet with fresh leads.</p>
+        <button id="btnEmptyReset" class="mt-4 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-semibold hover:bg-indigo-100 transition">
+          Clear Active Filters
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <div id="uploadModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4 hidden">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-slate-900 text-base">Import Leads from Excel / CSV</h3>
+        </div>
+        <button id="btnCloseUploadModal" class="text-slate-400 hover:text-slate-600 p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Upload your Google Sheets export or Excel spreadsheet (.xlsx, .xls, .csv). The system auto-maps headers like 
+          <span class="font-semibold text-slate-800">Business Name, Phone Number, Locality, Niche, Maps Link, Conversion Angle,</span> and 
+          <span class="font-semibold text-slate-800">Personalized WhatsApp Message</span>.
+        </p>
+
+        <!-- Dropzone -->
+        <div id="dropZone" class="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl p-6 text-center cursor-pointer transition-colors bg-slate-50/50 hover:bg-emerald-50/30">
+          <input type="file" id="fileInput" accept=".xlsx, .xls, .csv" class="hidden">
+          <svg class="w-10 h-10 text-emerald-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+          </svg>
+          <p class="text-sm font-semibold text-slate-800">Click to browse or drag file here</p>
+          <p class="text-xs text-slate-400 mt-1">Supports XLSX, XLS or CSV</p>
+        </div>
+
+        <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-3 text-xs text-indigo-900 space-y-1">
+          <p class="font-semibold flex items-center gap-1.5 text-indigo-700">
+            <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+            Automatic 30-leads Partitioning:
+          </p>
+          <p class="text-slate-600">Importing 90 leads will automatically configure Section 1 (1-30), Section 2 (31-60), and Section 3 (61-90) tabs with individual progress meters.</p>
+        </div>
+
+        <!-- Append or Replace option -->
+        <div class="flex items-center justify-between text-xs text-slate-600 pt-2 border-t border-slate-100">
+          <span>Import Mode:</span>
+          <div class="flex items-center gap-3">
+            <label class="flex items-center gap-1 cursor-pointer">
+              <input type="radio" name="importMode" value="append" class="text-indigo-600 focus:ring-indigo-500"> Append to current
+            </label>
+            <label class="flex items-center gap-1 cursor-pointer">
+              <input type="radio" name="importMode" value="replace" checked class="text-indigo-600 focus:ring-indigo-500"> Replace all
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="messageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4 hidden">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
+      
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div>
+          <h3 class="font-display font-bold text-slate-900 text-base flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            WhatsApp Message Editor
+          </h3>
+          <p id="modalLeadName" class="text-xs text-slate-500">Business: Veer Consultancy</p>
+        </div>
+        <button id="btnCloseMessageModal" class="text-slate-400 hover:text-slate-600 p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4 overflow-y-auto flex-1">
+        
+        <!-- Recipient details bar -->
+        <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200/70 text-xs">
+          <div>
+            <span class="text-slate-400">Target Phone:</span>
+            <span id="modalLeadPhone" class="font-mono font-bold text-slate-800 ml-1">+91 93160 51170</span>
+          </div>
+          <div class="text-right">
+            <span class="text-slate-400">Locality:</span>
+            <span id="modalLeadLocality" class="font-semibold text-slate-800 ml-1">Nizampura</span>
+          </div>
+        </div>
+
+        <!-- Editable text area -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Message Content (Hinglish / Gujarati Script)</label>
+          <textarea 
+            id="modalMessageContent" 
+            rows="9" 
+            class="w-full text-xs sm:text-sm font-sans p-3 bg-slate-50/70 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-800 leading-relaxed"
+          ></textarea>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <span>Tip: WhatsApp formatting (*bold*, _italic_) is preserved.</span>
+          <button id="btnCopyFromModal" class="text-indigo-600 hover:text-indigo-800 font-medium inline-flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            Copy Text
+          </button>
+        </div>
+
+      </div>
+
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-3">
+        <button id="btnSaveMessageDraft" class="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-100 transition">
+          Save Draft
+        </button>
+
+        <button id="btnSendWhatsAppModal" class="inline-flex items-center gap-2 px-5 py-2 text-xs font-bold text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition shadow-md shadow-emerald-600/30">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766zm3.376 8.204c-.14.394-.712.75-1.026.797-.314.048-.727.069-1.18-.076-.282-.09-.646-.213-1.127-.42-1.979-.854-3.262-2.846-3.361-2.977-.099-.131-.806-1.072-.806-2.046 0-.974.51-1.453.692-1.65.182-.197.397-.247.53-.247.132 0 .265.001.38.007.123.006.287-.046.449.342.164.394.562 1.37.611 1.47.049.099.082.214.016.345-.065.132-.098.214-.197.329-.098.115-.208.257-.297.345-.098.099-.2.206-.086.403.115.197.511.843 1.096 1.364.753.671 1.388.878 1.585.976.197.099.313.082.428-.049.115-.132.493-.574.625-.771.132-.197.263-.164.444-.099.181.066 1.15.542 1.348.641.197.098.33.148.378.23.049.082.049.476-.091.87zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.981-1.306C8.423 21.536 10.15 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+          Open & Send on WhatsApp
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="addLeadModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4 hidden">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <h3 class="font-display font-bold text-slate-900 text-base">Add New Outreach Lead</h3>
+        <button id="btnCloseAddModal" class="text-slate-400 hover:text-slate-600 p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <form id="addLeadForm" class="p-6 space-y-4 overflow-y-auto flex-1 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Business Name *</label>
+          <input type="text" id="newBizName" required placeholder="e.g. Apex Multispeciality Hospital" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-900 text-xs sm:text-sm">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Phone Number *</label>
+            <input type="text" id="newPhone" required placeholder="+91 98765 43210" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-900 text-xs sm:text-sm">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Locality</label>
+            <input type="text" id="newLocality" placeholder="e.g. Alkapuri, Nizampura" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-900 text-xs sm:text-sm">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Business Niche</label>
+            <input type="text" id="newNiche" placeholder="e.g. Dental Clinic, Visa Consultant" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-900 text-xs sm:text-sm">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Date Added</label>
+            <input type="date" id="newDateAdded" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-900 text-xs sm:text-sm">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Full Address</label>
+          <input type="text" id="newAddress" placeholder="Shop/Office No, Complex, Landmark, Vadodara" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-900 text-xs sm:text-sm">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Google Maps Link</label>
+          <input type="url" id="newMapsLink" placeholder="https://maps.google.com/..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-900 text-xs sm:text-sm">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Conversion Angle / Pitch Concept</label>
+          <input type="text" id="newConversionAngle" placeholder="Key hook or pain point to discuss..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-900 text-xs sm:text-sm">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Personalized WhatsApp Message</label>
+          <textarea id="newMessage" rows="4" placeholder="Kem cho sir, Namaste! ..." class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-slate-900 text-xs sm:text-sm"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <button type="button" id="btnCancelAddLead" class="px-4 py-2 text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200 font-semibold">Cancel</button>
+          <button type="submit" class="px-5 py-2 text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 font-semibold shadow-xs">Add to Tracker</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none max-w-sm w-full px-4"></div>
+
+  <script>
+    /* Global Application State */
+    const STORAGE_KEY = 'vadodara_lead_tracker_dataset_v1';
+    const SETTINGS_KEY = 'vadodara_lead_tracker_settings_v1';
+    const CHUNK_SIZE = 30; // 30 leads per section requirement
+
+    let leads = [];
+    let activeSection = 0; // 0 for Section 1 (0-29), 1 for Section 2 (30-59), etc., or -1 for 'ALL'
+    let currentFilter = 'all'; // 'all', 'pending', 'completed'
+    let currentSearch = '';
+    let currentLocality = '';
+    let currentView = 'cards'; // 'cards' or 'table'
+    let editingLeadId = null;
+
+    // Setting: Auto-mark as completed when WhatsApp button clicked
+    let settings = {
+      autoCompleteOnSend: true
+    };
+
+    // Initial dataset populated with real Vadodara businesses across localities
+    // Includes exact sample from user screenshot (Veer Consultancy-Passport-Visa) plus 32 more leads
+    // so total leads count exceeds 30, proving the 30-lead chunking mechanism instantly.
+    const DEFAULT_LEADS = [
+      {
+        id: 'vadodara-001',
+        dateAdded: '2026-09-12',
+        businessName: 'Veer Consultancy-Passport-Visa',
+        phone: '+91 93160 51170',
+        niche: 'Study Abroad, Passport & Visa Services',
+        locality: 'Nizampura',
+        address: '202, Kunal Complex, Nizampura Char Rasta, Vadodara, Gujarat 390002',
+        mapsLink: 'https://www.google.com/maps/place/?q=place_id:ChIJaw_gl-XJXzkRq25Y_kYwJak',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Student Trust & Country Portals: Showcase visa approval proof, partner universities, and direct inquiry forms to beat Alkapuri/Nizampura consultancies.',
+        message: `Kem cho sir, Namaste! 🙏\n\nHu Parth, Vadodara thi local custom web developer chu.\n\nNizampura ma tamari *Veer Consultancy-Passport-Visa* nu student immigration consulting ma khub vishesh naam che.\n\nStudy abroad ke PR visa mate students ane parents consultation book karta pahela approval success proof, partner universities ane country options verify kare che.\n\nMe tamari consultancy mate ek *Student Visa & Immigration Portal* design karyu che, jema:\n• Visa Approval Proofs & Country Guides (UK, Canada, USA, Europe)\n• University Tie-ups & Coaching Modules\n• Direct Student Assessment & Consultation Form\n\nJo tame interested ho, to aamna vise ek quick call par vaat kari shakiye? Tamaro anukul samay janavjo. Thank you! 🤝`
+      },
+      {
+        id: 'vadodara-002',
+        dateAdded: '2026-09-12',
+        businessName: 'Apex Dental Care & Implant Center',
+        phone: '+91 98251 44210',
+        niche: 'Dentistry & Orthodontics',
+        locality: 'Alkapuri',
+        address: '104, Concorde Building, RC Dutt Road, Alkapuri, Vadodara 390007',
+        mapsLink: 'https://maps.google.com/?q=Alkapuri+Vadodara',
+        status: 'Contacted',
+        completed: true,
+        conversionAngle: 'Direct Smile Consultation & WhatsApp Appointment Booking widget to reduce receptionist follow-up overhead.',
+        message: `Namaste Dr. Patel! 🙏\n\nHu Parth Vadodara thi. Alkapuri ma tamara clinic *Apex Dental Care* ni google reviews khub saras che.\n\nTamari appointment booking ne saral banavva ane patients ne instant direct WhatsApp slot confirmation male te mate ame ek automated Dental Landing Page banavyu che.\n\nJo anukool hoy to aamna vise 5 min telephonic call par charcha kari shakiye? Aabhar!`
+      },
+      {
+        id: 'vadodara-003',
+        dateAdded: '2026-09-13',
+        businessName: 'Shreeji Modular Kitchens & Interiors',
+        phone: '+91 97274 88390',
+        niche: 'Interior Design & Furniture',
+        locality: 'Gotri',
+        address: 'Gotri-Sevasi Road, Near Yash Complex, Vadodara 390021',
+        mapsLink: 'https://maps.google.com/?q=Gotri+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Interactive 3D Kitchen Portfolio with Instant Cost Estimator calculator for Gotri-Bhayli home buyers.',
+        message: `Kem cho sir! 🙏\n\nGotri-Bhayli belt ma new luxury apartments mate Shreeji Modular Kitchens na designs khub stylish che.\n\nNew flat buyers direct modular kitchen estimate calculate kari ne tamne contact kare tevo modern design portfolio portal tamara mate ready kari shakay.\n\nEk var demo link share karu? Tamaro samay anukool hoy tyare janavjo.`
+      },
+      {
+        id: 'vadodara-004',
+        dateAdded: '2026-09-13',
+        businessName: 'Baroda Overseas Immigration Academy',
+        phone: '+91 94280 11922',
+        niche: 'IELTS Coaching & Canada Visa',
+        locality: 'Fatehgunj',
+        address: 'Near MSU Polytechnic, Fatehgunj, Vadodara 390002',
+        mapsLink: 'https://maps.google.com/?q=Fatehgunj+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Free IELTS mock score test lead magnet & university shortlisting tool directly on landing page.',
+        message: `Namaste sir! MSU students mate Fatehgunj ma tamari IELTS coaching academy khub well known che.\n\nVadodara na students mate automated Band Calculator & Free Mock Test booking page thi daily 10-15 direct inquiries generate thay tevu model ame implement kariye chiye.\n\nTamne ek short preview moklu?`
+      },
+      {
+        id: 'vadodara-005',
+        dateAdded: '2026-09-14',
+        businessName: 'Kalyan Banquet & Event Planners',
+        phone: '+91 99042 55811',
+        niche: 'Banquets & Wedding Venues',
+        locality: 'Manjalpur',
+        address: 'Opp. Saraswati Complex, Manjalpur, Vadodara 390011',
+        mapsLink: 'https://maps.google.com/?q=Manjalpur+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Virtual 360 Walkthrough & Date Availability Calendar for wedding planners and families.',
+        message: `Kem cho Kalyan Banquets Team! 🙏\n\nManjalpur ma wedding season na bookings mate dates availability ane menu packaging darshavtu customized portal tamne direct inquiries aapi shake che.\n\nTamara banquets no visual catalogue sample tame joyo che? Call schedule kariye?`
+      },
+      {
+        id: 'vadodara-006',
+        dateAdded: '2026-09-14',
+        businessName: 'Dr. Shah Pediatric Care Clinic',
+        phone: '+91 98980 23419',
+        niche: 'Healthcare & Child Care',
+        locality: 'Akota',
+        address: 'Near Akota Stadium, Vadodara 390020',
+        mapsLink: 'https://maps.google.com/?q=Akota+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Vaccination chart reminder and priority OPD token ticketing via WhatsApp API.',
+        message: `Pranam Dr. Shah! Akota area na parents mate tamari pediatric care service khub bharosapaatra che.\n\nParents mate digital vaccination chart ane direct OPD queue slot booking nu mobile app-like web design ready che. Ek short demo share karu?`
+      },
+      {
+        id: 'vadodara-007',
+        dateAdded: '2026-09-15',
+        businessName: 'Rudra Auto Detailing & Ceramic Studio',
+        phone: '+91 96010 33874',
+        niche: 'Automotive & Car Detailing',
+        locality: 'Karelibaug',
+        address: 'Near Water Tank, VIP Road, Karelibaug, Vadodara 390018',
+        mapsLink: 'https://maps.google.com/?q=Karelibaug+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Before/After interactive slider & car model coating packages selector with online quotes.',
+        message: `Kem cho Rudra Detailing team! VIP Road par tamara ceramic coating ane PPF results top-notch che.\n\nCar lovers mate Before/After slider ane direct price quote calculator page customize karyu che. Aamna thi direct WhatsApp booking 3x vadhshe. Let us connect!`
+      },
+      {
+        id: 'vadodara-008',
+        dateAdded: '2026-09-15',
+        businessName: 'Sai Samarth Real Estate Advisory',
+        phone: '+91 98790 66102',
+        niche: 'Real Estate & Properties',
+        locality: 'Vasna Road',
+        address: 'Near D-Mart, Vasna Road, Vadodara 390015',
+        mapsLink: 'https://maps.google.com/?q=Vasna+Road+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'High-ticket NRI investor page for Vasna-Bhayli high rise properties with video tours.',
+        message: `Namaste sir! Vasna Road ane Bhayli na premium 3-4 BHK projects mate NRI ane local investors na filtered leads capture karva mate real estate landing funnel ame create kariye chia. Tamara latest listings include kari demo aapi shakay?`
+      },
+      {
+        id: 'vadodara-009',
+        dateAdded: '2026-09-16',
+        businessName: 'Ambica Sweet Mart & Farsan House',
+        phone: '+91 99240 77150',
+        niche: 'Food & Sweets Retail',
+        locality: 'Sayajigunj',
+        address: 'Station Road, Near Dairy Den Circle, Sayajigunj, Vadodara 390005',
+        mapsLink: 'https://maps.google.com/?q=Sayajigunj+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Festival Gift Box ordering page with bulk corporate packaging quotes.',
+        message: `Kem cho sir! Ambica Sweets na Sev Usal ane traditional Mithai Vadodara ma super famous che.\n\nDiwali ane Wedding corporate sweet boxes na direct bulk order portal mate ek simple ordering page ame design karyu che. Tamari sathe share karu?`
+      },
+      {
+        id: 'vadodara-010',
+        dateAdded: '2026-09-16',
+        businessName: 'Pinnacle Chartered Financial Advisors',
+        phone: '+91 94088 44321',
+        niche: 'Accounting & GST Consultation',
+        locality: 'Alkapuri',
+        address: 'Trivia Complex, Race Course Road, Alkapuri, Vadodara 390007',
+        mapsLink: 'https://maps.google.com/?q=Alkapuri+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Corporate tax deadline calculator & secure client document upload vault.',
+        message: `Namaste Pinnacle Advisors! Vadodara na SMEs ane business owners mate tamari tax compliance service khub trusted che. Ek professional CA portfolio portal sathe direct consultation booking setup kari shakay. Call schedule kariye?`
+      },
+      {
+        id: 'vadodara-011',
+        dateAdded: '2026-09-17',
+        businessName: 'Zenith Fitness Gym & CrossFit Club',
+        phone: '+91 97230 11200',
+        niche: 'Gym, Fitness & Crossfit',
+        locality: 'Subhanpura',
+        address: 'Subhanpura High Street, Near Atladra Road, Vadodara 390023',
+        mapsLink: 'https://maps.google.com/?q=Subhanpura+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Free 3-Day Trial Pass instant WhatsApp pass generator with QR code.',
+        message: `Hey Zenith Fitness! 🔥\n\nSubhanpura youth mate tamaro gym equipment & training setup khub saras che.\n\nNew members ne attract karva '3-Day Free Workout Pass' direct WhatsApp par generate karvanu landing page tamara membership sales double kari shake che. Demo jovo che?`
+      },
+      {
+        id: 'vadodara-012',
+        dateAdded: '2026-09-17',
+        businessName: 'Shree Krishna Jewellers & Gold Studio',
+        phone: '+91 98240 88219',
+        niche: 'Jewellery & Bridal Gold',
+        locality: 'Mandvi',
+        address: 'MG Road, Near Mandvi Gate, Vadodara 390001',
+        mapsLink: 'https://maps.google.com/?q=Mandvi+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Live Daily Gold Rate Ticker & Bridal jewellery catalog viewer with instant inquiry.',
+        message: `Kem cho sir, Pranam! Mandvi market ma Shree Krishna Jewellers nu naam baroda ma varsho junu che.\n\nLive Gold/Silver rate display sathe bridal collection nu luxury digital catalogue ame build kariye chiye. Tamne sample moklu?`
+      },
+      {
+        id: 'vadodara-013',
+        dateAdded: '2026-09-18',
+        businessName: 'Verve Architecture & Structural Studio',
+        phone: '+91 94290 77312',
+        niche: 'Architecture & Construction',
+        locality: 'Ellora Park',
+        address: 'Near Subhanpura Fire Station, Ellora Park, Vadodara 390023',
+        mapsLink: 'https://maps.google.com/?q=Ellora+Park+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'High-res architectural project portfolio with client testimonials and floor planning calculator.',
+        message: `Namaste Ar. Joshi! Ellora Park ma tamari architecture projects ni aesthetic modern che.\n\nHigh-end clients mate minimalistic, ultra-fast loading portfolio website develop karva amari team ready che. Have a look at our live designs?`
+      },
+      {
+        id: 'vadodara-014',
+        dateAdded: '2026-09-18',
+        businessName: 'Baroda Spine & Ortho Specialty Clinic',
+        phone: '+91 98256 33908',
+        niche: 'Orthopedics & Joint Care',
+        locality: 'Gotri',
+        address: 'Gotri Medical Road, Opp GMERS Hospital, Vadodara 390021',
+        mapsLink: 'https://maps.google.com/?q=Gotri+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Knee Pain & Spine Self-Assessment Questionnaire with direct OPD appointment slot.',
+        message: `Pranam Dr. Desai! Joint replacement ane spine care ma Gotri ma tamari clinic par regular patients aave che.\n\nPatients clinic aavya pahela digital assessment form bhari ne case history share kare tevu system implement kariye to patient flow easy bane. Can we talk?`
+      },
+      {
+        id: 'vadodara-015',
+        dateAdded: '2026-09-19',
+        businessName: 'Royal Rajasthan Heritage Dine',
+        phone: '+91 99790 55140',
+        niche: 'Restaurant & Dining',
+        locality: 'Alkapuri',
+        address: 'Windsor Plaza, RC Dutt Road, Alkapuri, Vadodara 390007',
+        mapsLink: 'https://maps.google.com/?q=Alkapuri+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Interactive table reservation & digital QR menu with banquet party package inquiry.',
+        message: `Kem cho sir! Alkapuri foodies ma tamari authentic thali ane dining khub popular che.\n\nWeekend table booking rush manage karva ane direct party banquet orders mate zero-commission web ordering funnel ready che. 5 min ma demo share karu?`
+      },
+      {
+        id: 'vadodara-016',
+        dateAdded: '2026-09-19',
+        businessName: 'Maruti Tuition Classes & Science Hub',
+        phone: '+91 97120 44883',
+        niche: 'Education & Board Coaching',
+        locality: 'Karelibaug',
+        address: 'Near Bright School, VIP Road, Karelibaug, Vadodara 390018',
+        mapsLink: 'https://maps.google.com/?q=Karelibaug+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Board Result Rankers Wall & Free 7-Day Demo Lecture registration form.',
+        message: `Namaste sir! 10th & 12th Board Science/Commerce students mate Maruti Classes na past results shandaar che.\n\nParents ne rankers showcase kari direct Demo class registration karvavti web portal banavva mate ek blueprint ready che. Janavjo samay!`
+      },
+      {
+        id: 'vadodara-017',
+        dateAdded: '2026-09-20',
+        businessName: 'Urban Nest Luxury Curtains & Mattresses',
+        phone: '+91 98982 77014',
+        niche: 'Home Furnishings & Decor',
+        locality: 'Old Padra Road',
+        address: 'Near Malhar Point, Old Padra Road, Vadodara 390020',
+        mapsLink: 'https://maps.google.com/?q=Old+Padra+Road+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Free at-home measurement booking tool & fabric texture catalog viewer.',
+        message: `Kem cho sir! Old Padra Road na premium home decor market ma Urban Nest nu furnishing collection elite che.\n\nCustomers ghare betha fabric catalogue joi ne 'Free Measurement Call' book kari shake tevo solution develop kariye chiye. Tamne ek preview share karu?`
+      },
+      {
+        id: 'vadodara-018',
+        dateAdded: '2026-09-20',
+        businessName: 'Sun Solar Energy Solutions Gujarat',
+        phone: '+91 94090 12899',
+        niche: 'Rooftop Solar & Renewable',
+        locality: 'Manjalpur',
+        address: 'GIDC Industrial Area, Makarpura/Manjalpur, Vadodara 390010',
+        mapsLink: 'https://maps.google.com/?q=Makarpura+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Gujarat PM Surya Ghar Subsidy Savings Calculator & Electricity Bill savings estimator.',
+        message: `Namaste sir! PM Surya Ghar Muft Bijli Yojana mate Vadodara na homeowners rooftop solar install karave che.\n\nCustomer potana light bill mutabik direct Subsidy & Savings calculate kari ne quote mange tevu high-converting calculator page tame joi shako cho. Quick discussion possible?`
+      },
+      {
+        id: 'vadodara-019',
+        dateAdded: '2026-09-21',
+        businessName: 'Pet Care & Veterinary Clinic Vadodara',
+        phone: '+91 96240 55091',
+        niche: 'Pet Care & Grooming',
+        locality: 'Fatehgunj',
+        address: 'Near University Pavilion, Fatehgunj, Vadodara 390002',
+        mapsLink: 'https://maps.google.com/?q=Fatehgunj+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Pet Grooming appointment slot picker with pet breed vaccination alerts.',
+        message: `Kem cho Dr. Rao! Baroda na pet parents mate tamari grooming & surgery clinic khub loved che.\n\nPet spa slots ane emergency appointment booking direct WhatsApp integrate kari shake tevu simple UI portal tamara mate ready kari shakay. Let's connect!`
+      },
+      {
+        id: 'vadodara-020',
+        dateAdded: '2026-09-21',
+        businessName: 'Chroma Visual Studio & Wedding Films',
+        phone: '+91 98250 99412',
+        niche: 'Wedding Photography & Cinema',
+        locality: 'Gotri',
+        address: 'Opp. ISKCON Temple, Gotri Road, Vadodara 390021',
+        mapsLink: 'https://maps.google.com/?q=Gotri+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Cinematic 4K Video Portfolio & Wedding Date checking inquiry form.',
+        message: `Namaste Chroma Studio team! Gotri-Bhayli wedding cinematic teasers tame khub artfully capture karo cho.\n\nCouple ane family mate 4K mobile-optimized portfolio website sathe direct wedding package brochure download page customize kariye chiye. Sample jovo che?`
+      },
+      {
+        id: 'vadodara-021',
+        dateAdded: '2026-09-22',
+        businessName: 'Classic Men Salon & Grooming Lounge',
+        phone: '+91 99090 33118',
+        niche: 'Salon & Spa Services',
+        locality: 'Nizampura',
+        address: 'Near Swaminarayan Temple, Nizampura, Vadodara 390002',
+        mapsLink: 'https://maps.google.com/?q=Nizampura+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Pre-wedding Groom packages & weekend slot queue booker via WhatsApp.',
+        message: `Kem cho sir! Nizampura ma tamara salon ni grooming service reliable che.\n\nWeekend rush ma client waiting samay ghattadva ane Groom packages na direct booking mate dynamic WhatsApp landing page tame try kari shako cho. Call kariye?`
+      },
+      {
+        id: 'vadodara-022',
+        dateAdded: '2026-09-22',
+        businessName: 'Devansh Kids Wear & Baby Studio',
+        phone: '+91 97250 88200',
+        niche: 'Kids Apparel & Retail',
+        locality: 'Waghodia Road',
+        address: 'Near Parivar Char Rasta, Waghodia Road, Vadodara 390019',
+        mapsLink: 'https://maps.google.com/?q=Waghodia+Road+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Seasonal new collection catalog with click-to-order WhatsApp catalog.',
+        message: `Namaste sir! Waghodia road par Devansh Kids Wear nu collection parents ma popular che.\n\nDaily new arrival photos catalog ma update kari direct WhatsApp order capture karva nu setup tame jovu chaho to janavjo!`
+      },
+      {
+        id: 'vadodara-023',
+        dateAdded: '2026-09-23',
+        businessName: 'Matrix IT Solutions & Laptop Care',
+        phone: '+91 94270 44109',
+        niche: 'Laptop & Hardware Repair',
+        locality: 'Sayajigunj',
+        address: 'Silverline Complex, Sayajigunj, Vadodara 390005',
+        mapsLink: 'https://maps.google.com/?q=Sayajigunj+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Track Repair Status portal & Doorstep Laptop pickup booking button.',
+        message: `Kem cho Matrix IT team! Sayajigunj IT market ma tamari laptop & Mac repair service trustable che.\n\nStudents ane corporate employees mate 'Free Doorstep Pickup Booking' landing page develop kari sakay. Sample share karu?`
+      },
+      {
+        id: 'vadodara-024',
+        dateAdded: '2026-09-23',
+        businessName: 'Om Shanti Yoga & Naturopathy Ashram',
+        phone: '+91 98984 66201',
+        niche: 'Wellness, Yoga & Therapy',
+        locality: 'Sama',
+        address: 'Near Sama Talav, Sama, Vadodara 390024',
+        mapsLink: 'https://maps.google.com/?q=Sama+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Morning batch timetable & Stress Relief / Backpain yoga trial registration.',
+        message: `Pranam Guruji! Sama Talav pase tamara Yoga sessions ni peace and therapy khub appreciate thay che.\n\nNew batches mate free 2-day session passes direct WhatsApp par aapi lead convert karvanu system tame consider kari shako cho. Anukool samaye vaat kariye?`
+      },
+      {
+        id: 'vadodara-025',
+        dateAdded: '2026-09-24',
+        businessName: 'Akshar Eye Hospital & Laser Center',
+        phone: '+91 98242 11993',
+        niche: 'Ophthalmology & Lasik Surgery',
+        locality: 'Alkapuri',
+        address: 'Jetalpur Road, Near Alkapuri, Vadodara 390007',
+        mapsLink: 'https://maps.google.com/?q=Alkapuri+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Am I Eligible for Contoura Lasik? Quick 30-second eye test quiz with doctor consultation booking.',
+        message: `Namaste Dr. Shah! Vadodara na youth mate specs removal Lasik laser consultation khub high-demand ma che.\n\n'Lasik Eligibility Quiz' funnel thi patients potani eligibility check kari direct OPD book kare tevo high conversion page tame deploy kari shako cho. Preview share karu?`
+      },
+      {
+        id: 'vadodara-026',
+        dateAdded: '2026-09-24',
+        businessName: 'Shiv Shakti Electricals & Automation',
+        phone: '+91 97140 22019',
+        niche: 'Industrial Automation & Switchgear',
+        locality: 'Makarpura GIDC',
+        address: 'Plot 410, GIDC Industrial Estate, Makarpura, Vadodara 390010',
+        mapsLink: 'https://maps.google.com/?q=Makarpura+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'B2B RFQ product inquiry cart & industrial brand distributorship specs sheet.',
+        message: `Kem cho sir! Makarpura GIDC industries mate tamari panel manufacturing ane switchgear supply crucial che.\n\nB2B buyers direct quotation list request submit kari shake tevi custom B2B web catalog tame consider karo to ek detailed demo ready che. Janavjo!`
+      },
+      {
+        id: 'vadodara-027',
+        dateAdded: '2026-09-25',
+        businessName: 'The Roast Brew Cafe & Bakery',
+        phone: '+91 98254 77801',
+        niche: 'Cafe, Coffee & Bakery',
+        locality: 'Vasna Bhayli Road',
+        address: 'Bhayli Canal Road, Near Bright Day School, Vadodara 391410',
+        mapsLink: 'https://maps.google.com/?q=Bhayli+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Digital loyalty club signup with free artisan coffee voucher on first visit.',
+        message: `Hey Roast Brew team! ☕\n\nBhayli road na cafe culture ma tamari coffee & sourdough sandwiches loved che.\n\nCafe visitors ne loyalty customers banavva mate 'Free Coffee on 1st Order' WhatsApp QR landing page design kari shakay. 5 min ma pitch karu?`
+      },
+      {
+        id: 'vadodara-028',
+        dateAdded: '2026-09-25',
+        businessName: 'Pratham Driving School Vadodara',
+        phone: '+91 99041 33620',
+        niche: 'Driving Lessons & RTO License',
+        locality: 'Subhanpura',
+        address: 'Near High Tension Line, Subhanpura, Vadodara 390023',
+        mapsLink: 'https://maps.google.com/?q=Subhanpura+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Doorstep pickup driving batch selection & RTO driving test mock quiz.',
+        message: `Namaste sir! Baroda ma 4-wheeler driving sikhva mate tamari institute student friendly che.\n\nTime slots booking ane RTO test guide web page thi daily 5-8 new driving inquiries generate thay che. Tamne workflow sample jovo che?`
+      },
+      {
+        id: 'vadodara-029',
+        dateAdded: '2026-09-26',
+        businessName: 'Gujarat Packaging & Corrugated Boxes',
+        phone: '+91 94260 55910',
+        niche: 'Manufacturing & Corrugated Packaging',
+        locality: 'Gorwa',
+        address: 'Gorwa BIDC Estate, Vadodara 390016',
+        mapsLink: 'https://maps.google.com/?q=Gorwa+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Custom Box Dimensions Instant Price Estimator for pharmaceutical and FMCG clients.',
+        message: `Kem cho sir! Gorwa BIDC pharmaceutical & engineering clients mate custom packaging boxes no order calculator page tamara quotation speed ne 10x improve kari shake che. Demo batavu?`
+      },
+      {
+        id: 'vadodara-030',
+        dateAdded: '2026-09-26',
+        businessName: 'Smart Touch Home Automation Baroda',
+        phone: '+91 98792 11450',
+        niche: 'Smart Home & Security Systems',
+        locality: 'Akota',
+        address: 'Purushottam Chambers, Opp. Productivity Council, Akota, Vadodara 390020',
+        mapsLink: 'https://maps.google.com/?q=Akota+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Luxury Villa Smart Lighting & CCTV package interactive planner with budget calculator.',
+        message: `Namaste sir! Akota ane Gotri villas mate tamari touch switches ane wireless automation products cutting-edge che.\n\nHome owners mate 'Smart Home Cost Planner' page develop kari sakay jema room count select karta direct estimated cost male. Talk today?`
+      },
+      // --- START OF SECTION 2 (Leads 31+) TO PROVE 30-PER-SECTION CHUNKING ---
+      {
+        id: 'vadodara-031',
+        dateAdded: '2026-09-27',
+        businessName: 'Baroda Dialysis & Kidney Foundation',
+        phone: '+91 98259 88310',
+        niche: 'Nephrology & Dialysis Clinic',
+        locality: 'Karelibaug',
+        address: 'Near Anand Vidhyalaya, Karelibaug, Vadodara 390018',
+        mapsLink: 'https://maps.google.com/?q=Karelibaug+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Direct Dialysis Slot Booking and emergency patient care helpline portal.',
+        message: `Pranam Dr. Mehta! Vadodara ma kidney care and dialysis management mate tamari healthcare clinic well known che. Patients mate easy emergency admission guidance portal create kariye to family ne khub rahat rahe. Ek short phone talk kariye?`
+      },
+      {
+        id: 'vadodara-032',
+        dateAdded: '2026-09-27',
+        businessName: 'Mahalaxmi Sweets & Dairy Products',
+        phone: '+91 99245 44102',
+        niche: 'Traditional Sweets & Ghee',
+        locality: 'Raopura',
+        address: 'Tower Char Rasta, Raopura, Vadodara 390001',
+        mapsLink: 'https://maps.google.com/?q=Raopura+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Pure Desi Ghee sweets bulk booking & wedding gift hamper catalog.',
+        message: `Kem cho sir! Raopura Tower pase Mahalaxmi Sweets nu naam Baroda heritage ma shamil che. Wedding season ma bulk boxes direct WhatsApp book thase tevu portal ame ready karyu che. Demo link share karu?`
+      },
+      {
+        id: 'vadodara-033',
+        dateAdded: '2026-09-28',
+        businessName: 'Krupa Ayurvedic Panchakarma Retreat',
+        phone: '+91 97129 66320',
+        niche: 'Ayurveda & Panchakarma',
+        locality: 'Gotri Road',
+        address: 'Behind Yash Complex, Gotri Road, Vadodara 390021',
+        mapsLink: 'https://maps.google.com/?q=Gotri+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Vata-Pitta-Kapha Prakriti dosha test calculator & panchakarma detox consultation.',
+        message: `Namaste Vaidya ji! Gotri area ma authentic panchakarma ane spine treatment mate Krupa Ayurveda trusted che. Online dosha analysis page sathe direct OPD appointments double kari shakay. Preview share karu?`
+      },
+      {
+        id: 'vadodara-034',
+        dateAdded: '2026-09-28',
+        businessName: 'Zenith Career Coaching for GPSC & UPSC',
+        phone: '+91 94081 22890',
+        niche: 'Government Exam Preparation',
+        locality: 'Fatehgunj',
+        address: 'University Road, Fatehgunj, Vadodara 390002',
+        mapsLink: 'https://maps.google.com/?q=Fatehgunj+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Daily Current Affairs PDF Download & Mock Test Ranker system.',
+        message: `Kem cho sir! Gujarat na competitive students mate tamari academy top results aape che. Daily free current affairs PDF download form thi thousands of aspirant phone numbers capture kari sakay. Discussion schedule kariye?`
+      },
+      {
+        id: 'vadodara-035',
+        dateAdded: '2026-09-29',
+        businessName: 'Aakar Modular Office Systems',
+        phone: '+91 98989 11029',
+        niche: 'Office Furniture & Workstations',
+        locality: 'Alkapuri',
+        address: 'Race Course Circle, Alkapuri, Vadodara 390007',
+        mapsLink: 'https://maps.google.com/?q=Alkapuri+Vadodara',
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: 'Commercial office workstation layout visualizer with ergonomic chair catalogs.',
+        message: `Namaste sir! Alkapuri commercial complexes ma corporate offices mate Aakar office furniture perfect choice che. Direct B2B design catalogue sathe quotation generator page tame deploy kari shako cho. Anukool samay janavjo!`
+      }
+    ];
+
+    function loadSavedData() {
+      try {
+        const storedLeads = localStorage.getItem(STORAGE_KEY);
+        if (storedLeads) {
+          leads = JSON.parse(storedLeads);
+        } else {
+          leads = JSON.parse(JSON.stringify(DEFAULT_LEADS));
+          saveData();
+        }
+
+        const storedSettings = localStorage.getItem(SETTINGS_KEY);
+        if (storedSettings) {
+          settings = { ...settings, ...JSON.parse(storedSettings) };
+        }
+      } catch (e) {
+        console.error('Error reading localStorage, reverting to defaults:', e);
+        leads = JSON.parse(JSON.stringify(DEFAULT_LEADS));
+      }
+
+      // Sync settings checkbox
+      const autoCompEl = document.getElementById('autoCompleteOnWhatsApp');
+      if (autoCompEl) autoCompEl.checked = settings.autoCompleteOnSend;
+    }
+
+    function saveData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
+      } catch (e) {
+        showToast('Storage quota exceeded or private mode active!', 'error');
+      }
+    }
+
+    function saveSettings() {
+      try {
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+      } catch (e) {}
+    }
+
+    // Sanitizes international/Indian phone numbers (+91 93160 51170 -> 919316051170)
+    function sanitizePhoneNumber(raw) {
+      if (!raw) return '';
+      let cleaned = String(raw).replace(/[^0-9]/g, '');
+      // If user provided a 10 digit Indian number without country code
+      if (cleaned.length === 10) {
+        cleaned = '91' + cleaned;
+      }
+      return cleaned;
+    }
+
+    // Direct WhatsApp message link builder
+    function generateWhatsAppLink(rawPhone, textMessage) {
+      const cleanPhone = sanitizePhoneNumber(rawPhone);
+      const encodedMsg = encodeURIComponent(textMessage || '');
+      return `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
+    }
+
+    // Safe clipboard copy compliant with iframe sandboxes
+    function copyText(text, successMsg = 'Copied to clipboard!') {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      textarea.style.top = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast(successMsg, 'success');
+      } catch (err) {
+        showToast('Could not auto-copy, please copy manually', 'error');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // In-app lightweight floating toast notifications
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      
+      const bgColors = {
+        success: 'bg-emerald-600 text-white',
+        error: 'bg-rose-600 text-white',
+        info: 'bg-slate-900 text-white'
+      };
+
+      const icons = {
+        success: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`,
+        error: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`,
+        info: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+      };
+
+      toast.className = `flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-xs font-semibold transform transition-all duration-300 translate-y-3 opacity-0 ${bgColors[type] || bgColors.info}`;
+      toast.innerHTML = `${icons[type] || icons.info} <span>${message}</span>`;
+      
+      container.appendChild(toast);
+
+      // Animate in
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-3', 'opacity-0');
+      });
+
+      // Auto dismiss after 2.8s
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-3');
+        setTimeout(() => toast.remove(), 300);
+      }, 2800);
+    }
+
+    function getTotalSections() {
+      return Math.max(1, Math.ceil(leads.length / CHUNK_SIZE));
+    }
+
+    function getFilteredLeads() {
+      return leads.filter(lead => {
+        // Status filter
+        if (currentFilter === 'pending' && lead.completed) return false;
+        if (currentFilter === 'completed' && !lead.completed) return false;
+
+        // Locality filter
+        if (currentLocality && lead.locality !== currentLocality) return false;
+
+        // Search text
+        if (currentSearch) {
+          const q = currentSearch.toLowerCase();
+          const matchBiz = (lead.businessName || '').toLowerCase().includes(q);
+          const matchPhone = (lead.phone || '').toLowerCase().includes(q);
+          const matchNiche = (lead.niche || '').toLowerCase().includes(q);
+          const matchLoc = (lead.locality || '').toLowerCase().includes(q);
+          const matchAddr = (lead.address || '').toLowerCase().includes(q);
+          if (!matchBiz && !matchPhone && !matchNiche && !matchLoc && !matchAddr) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+    }
+
+    function getVisibleLeads() {
+      const filtered = getFilteredLeads();
+
+      // If activeSection is -1, show ALL filtered leads
+      if (activeSection === -1) {
+        return filtered;
+      }
+
+      // 30 Leads per Section logic
+      // Note: Chunking is based on the indexed slice of the master list OR the filtered list
+      // Consistent workflow: Chunk the active view so users progress 30 at a time
+      const startIdx = activeSection * CHUNK_SIZE;
+      const endIdx = startIdx + CHUNK_SIZE;
+      return leads.slice(startIdx, endIdx).filter(lead => {
+        if (currentFilter === 'pending' && lead.completed) return false;
+        if (currentFilter === 'completed' && !lead.completed) return false;
+        if (currentLocality && lead.locality !== currentLocality) return false;
+        if (currentSearch) {
+          const q = currentSearch.toLowerCase();
+          return (lead.businessName || '').toLowerCase().includes(q) ||
+                 (lead.phone || '').toLowerCase().includes(q) ||
+                 (lead.niche || '').toLowerCase().includes(q) ||
+                 (lead.locality || '').toLowerCase().includes(q);
+        }
+        return true;
+      });
+    }
+
+    function updateDashboardMetrics() {
+      const total = leads.length;
+      const completed = leads.filter(l => l.completed).length;
+      const pending = total - completed;
+      const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+      document.getElementById('statTotalLeads').textContent = total;
+      document.getElementById('statCompletedLeads').textContent = completed;
+      document.getElementById('statPendingLeads').textContent = pending;
+      document.getElementById('statProgressPct').textContent = `${pct}%`;
+
+      // Filter counters
+      document.getElementById('filterAllCount').textContent = total;
+      document.getElementById('filterCompletedCount').textContent = completed;
+      document.getElementById('filterPendingCount').textContent = pending;
+
+      // Section-specific metrics
+      const totalSec = getTotalSections();
+      if (activeSection >= totalSec) activeSection = 0;
+
+      let secLeads = [];
+      if (activeSection === -1) {
+        secLeads = leads;
+      } else {
+        const start = activeSection * CHUNK_SIZE;
+        const end = Math.min(start + CHUNK_SIZE, leads.length);
+        secLeads = leads.slice(start, end);
+      }
+
+      const secTotal = secLeads.length;
+      const secDone = secLeads.filter(l => l.completed).length;
+      const secPct = secTotal === 0 ? 0 : Math.round((secDone / secTotal) * 100);
+
+      const sectionTitle = activeSection === -1 
+        ? `All Leads: ${secDone} / ${secTotal} Done`
+        : `Section ${activeSection + 1}: ${secDone} / ${secTotal} Done`;
+
+      document.getElementById('sectionCounterText').textContent = sectionTitle;
+      document.getElementById('sectionPercentText').textContent = `${secPct}% Completed in this batch`;
+      document.getElementById('sectionProgressBar').style.width = `${secPct}%`;
+    }
+
+    function renderSectionTabs() {
+      const container = document.getElementById('sectionTabsContainer');
+      container.innerHTML = '';
+      const totalSec = getTotalSections();
+
+      for (let i = 0; i < totalSec; i++) {
+        const startNum = (i * CHUNK_SIZE) + 1;
+        const endNum = Math.min((i + 1) * CHUNK_SIZE, leads.length);
+        const chunkLeads = leads.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
+        const chunkDone = chunkLeads.filter(l => l.completed).length;
+
+        const isActive = activeSection === i;
+
+        const btn = document.createElement('button');
+        btn.className = `shrink-0 px-3.5 py-2 rounded-xl font-medium text-xs flex items-center gap-2 border transition ${
+          isActive 
+            ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' 
+            : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300'
+        }`;
+
+        btn.innerHTML = `
+          <span>Section ${i + 1} <span class="opacity-75">(${startNum}-${endNum})</span></span>
+          <span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold ${
+            isActive ? 'bg-indigo-700 text-indigo-100' : 'bg-slate-100 text-slate-600'
+          }">
+            ${chunkDone}/${chunkLeads.length}
+          </span>
+        `;
+
+        btn.addEventListener('click', () => {
+          activeSection = i;
+          renderApp();
+        });
+
+        container.appendChild(btn);
+      }
+
+      // "View All" Tab
+      const viewAllBtn = document.createElement('button');
+      const isAllActive = activeSection === -1;
+      viewAllBtn.className = `shrink-0 px-3.5 py-2 rounded-xl font-medium text-xs flex items-center gap-2 border transition ${
+        isAllActive 
+          ? 'bg-slate-900 text-white border-slate-900 shadow-sm' 
+          : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300'
+      }`;
+      viewAllBtn.innerHTML = `
+        <span>View All Leads</span>
+        <span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold ${
+          isAllActive ? 'bg-slate-800 text-slate-200' : 'bg-slate-100 text-slate-600'
+        }">${leads.length}</span>
+      `;
+      viewAllBtn.addEventListener('click', () => {
+        activeSection = -1;
+        renderApp();
+      });
+      container.appendChild(viewAllBtn);
+    }
+
+    function renderLocalityDropdown() {
+      const select = document.getElementById('localityFilterSelect');
+      const currentVal = select.value;
+      const localities = Array.from(new Set(leads.map(l => l.locality).filter(Boolean))).sort();
+
+      select.innerHTML = '<option value="">All Localities</option>';
+      localities.forEach(loc => {
+        const opt = document.createElement('option');
+        opt.value = loc;
+        opt.textContent = `${loc} (${leads.filter(l => l.locality === loc).length})`;
+        if (loc === currentVal) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
+    function renderLeadCards(visibleLeads) {
+      const grid = document.getElementById('cardsGrid');
+      grid.innerHTML = '';
+
+      visibleLeads.forEach(lead => {
+        const globalIndex = leads.findIndex(l => l.id === lead.id) + 1;
+        const cleanPhone = sanitizePhoneNumber(lead.phone);
+        const waLink = generateWhatsAppLink(lead.phone, lead.message);
+
+        const card = document.createElement('div');
+        card.className = `lead-card bg-white rounded-2xl border p-4 sm:p-5 flex flex-col justify-between shadow-2xs relative ${
+          lead.completed ? 'border-emerald-200 bg-emerald-50/10' : 'border-slate-200/90'
+        }`;
+
+        card.innerHTML = `
+          <div class="space-y-3">
+            <!-- Header Row: Index, Date & Status Toggle -->
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="font-mono text-[11px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">
+                  #${globalIndex}
+                </span>
+                ${lead.dateAdded ? `<span class="text-[11px] text-slate-400 font-mono">${lead.dateAdded}</span>` : ''}
+                ${lead.locality ? `
+                  <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-100">
+                    📍 ${lead.locality}
+                  </span>
+                ` : ''}
+              </div>
+
+              <!-- Interactive Complete / Incomplete Toggle -->
+              <button 
+                onclick="toggleLeadStatus('${lead.id}')"
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition shadow-2xs cursor-pointer ${
+                  lead.completed 
+                    ? 'bg-emerald-100 text-emerald-800 border border-emerald-300 hover:bg-emerald-200' 
+                    : 'bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100'
+                }"
+                title="Click to toggle status"
+              >
+                ${lead.completed 
+                  ? `<svg class="w-3.5 h-3.5 text-emerald-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Completed` 
+                  : `<svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg> Incomplete`}
+              </button>
+            </div>
+
+            <!-- Business Title & Niche -->
+            <div>
+              <h3 class="font-display font-bold text-slate-900 text-base leading-snug group flex items-center justify-between">
+                <span>${escapeHtml(lead.businessName || 'Unnamed Business')}</span>
+              </h3>
+              ${lead.niche ? `
+                <p class="text-xs font-medium text-slate-500 mt-0.5 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                  ${escapeHtml(lead.niche)}
+                </p>
+              ` : ''}
+            </div>
+
+            <!-- Address Snippet -->
+            ${lead.address ? `
+              <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed bg-slate-50 p-2 rounded-lg border border-slate-100">
+                ${escapeHtml(lead.address)}
+              </p>
+            ` : ''}
+
+            <!-- Conversion Angle Callout -->
+            ${lead.conversionAngle ? `
+              <div class="bg-amber-50/60 border border-amber-200/60 rounded-xl p-2.5 text-xs text-amber-900">
+                <span class="font-bold text-amber-800 block text-[11px] uppercase tracking-wider mb-0.5">🎯 Conversion Angle:</span>
+                <p class="text-slate-700 text-xs leading-normal">${escapeHtml(lead.conversionAngle)}</p>
+              </div>
+            ` : ''}
+
+            <!-- Personalized Message Preview Box -->
+            <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-2.5 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766z"/></svg>
+                  Personalized WhatsApp Text
+                </span>
+                <div class="flex items-center gap-1">
+                  <button 
+                    onclick="openMessageModal('${lead.id}')"
+                    class="text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 px-1.5 py-0.5 rounded hover:bg-indigo-50"
+                  >
+                    Edit / View
+                  </button>
+                  <button 
+                    onclick="copyLeadMessage('${lead.id}')"
+                    title="Copy message"
+                    class="text-slate-400 hover:text-slate-700 p-1 rounded hover:bg-slate-200"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+              <p class="text-xs text-slate-600 line-clamp-3 font-sans italic bg-white p-2 rounded-lg border border-slate-100 whitespace-pre-line">
+                ${escapeHtml(lead.message || 'No personalized message configured.')}
+              </p>
+            </div>
+          </div>
+
+          <!-- Action Buttons Bar -->
+          <div class="pt-4 mt-4 border-t border-slate-100 flex flex-wrap items-center gap-2">
+            
+            <!-- WhatsApp Action Button (Primary) -->
+            <a 
+              href="${waLink}" 
+              target="_blank" 
+              onclick="handleWhatsAppDispatch('${lead.id}')"
+              class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm shadow-emerald-600/30 transition text-center"
+            >
+              <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766zm3.376 8.204c-.14.394-.712.75-1.026.797-.314.048-.727.069-1.18-.076-.282-.09-.646-.213-1.127-.42-1.979-.854-3.262-2.846-3.361-2.977-.099-.131-.806-1.072-.806-2.046 0-.974.51-1.453.692-1.65.182-.197.397-.247.53-.247.132 0 .265.001.38.007.123.006.287-.046.449.342.164.394.562 1.37.611 1.47.049.099.082.214.016.345-.065.132-.098.214-.197.329-.098.115-.208.257-.297.345-.098.099-.2.206-.086.403.115.197.511.843 1.096 1.364.753.671 1.388.878 1.585.976.197.099.313.082.428-.049.115-.132.493-.574.625-.771.132-.197.263-.164.444-.099.181.066 1.15.542 1.348.641.197.098.33.148.378.23.049.082.049.476-.091.87zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.981-1.306C8.423 21.536 10.15 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+              </svg>
+              <span>Send WhatsApp</span>
+            </a>
+
+            <!-- Quick Direct Call Button -->
+            <a 
+              href="tel:${cleanPhone}" 
+              title="Call ${lead.phone}"
+              class="p-2.5 rounded-xl border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition shadow-2xs"
+            >
+              <svg class="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+              </svg>
+            </a>
+
+            <!-- Google Maps Button -->
+            ${lead.mapsLink ? `
+              <a 
+                href="${lead.mapsLink}" 
+                target="_blank" 
+                title="Open on Google Maps" 
+                class="p-2.5 rounded-xl border border-slate-200 text-slate-600 hover:text-rose-600 hover:bg-slate-50 transition shadow-2xs"
+              >
+                <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </a>
+            ` : ''}
+
+            <!-- Delete Lead Button -->
+            <button 
+              onclick="deleteLead('${lead.id}')" 
+              title="Delete lead"
+              class="p-2.5 rounded-xl border border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50/50 transition shadow-2xs"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+              </svg>
+            </button>
+
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function renderLeadTable(visibleLeads) {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+
+      visibleLeads.forEach(lead => {
+        const globalIndex = leads.findIndex(l => l.id === lead.id) + 1;
+        const cleanPhone = sanitizePhoneNumber(lead.phone);
+        const waLink = generateWhatsAppLink(lead.phone, lead.message);
+
+        const tr = document.createElement('tr');
+        tr.className = `hover:bg-slate-50 transition ${lead.completed ? 'bg-emerald-50/20' : ''}`;
+
+        tr.innerHTML = `
+          <td class="py-3 px-4 font-mono text-center text-slate-500 font-bold">${globalIndex}</td>
+          
+          <td class="py-3 px-4">
+            <button 
+              onclick="toggleLeadStatus('${lead.id}')"
+              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold cursor-pointer ${
+                lead.completed 
+                  ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' 
+                  : 'bg-amber-100 text-amber-800 border border-amber-300'
+              }"
+            >
+              ${lead.completed ? '✓ Done' : 'Pending'}
+            </button>
+          </td>
+
+          <td class="py-3 px-4">
+            <div class="font-bold text-slate-900">${escapeHtml(lead.businessName || 'Unnamed')}</div>
+            <div class="text-[11px] text-slate-500">${escapeHtml(lead.niche || '')}</div>
+          </td>
+
+          <td class="py-3 px-4 whitespace-nowrap">
+            <div class="font-mono font-medium text-slate-800">${escapeHtml(lead.phone || '-')}</div>
+            <a href="tel:${cleanPhone}" class="text-[11px] text-indigo-600 hover:underline">Direct Call</a>
+          </td>
+
+          <td class="py-3 px-4 whitespace-nowrap">
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium text-xs">
+              ${escapeHtml(lead.locality || '-')}
+            </span>
+          </td>
+
+          <td class="py-3 px-4 max-w-xs">
+            <div class="truncate text-xs font-medium text-amber-900" title="${escapeHtml(lead.conversionAngle || '')}">
+              ${escapeHtml(lead.conversionAngle || 'No angle')}
+            </div>
+            <div class="text-[11px] text-slate-500 truncate" title="${escapeHtml(lead.message || '')}">
+              ${escapeHtml(lead.message || '')}
+            </div>
+          </td>
+
+          <td class="py-3 px-4 text-center">
+            <div class="inline-flex items-center gap-1.5">
+              <a 
+                href="${waLink}" 
+                target="_blank" 
+                onclick="handleWhatsAppDispatch('${lead.id}')"
+                class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-lg inline-flex items-center gap-1"
+                title="Send WhatsApp"
+              >
+                <span>WhatsApp</span>
+              </a>
+              <button 
+                onclick="openMessageModal('${lead.id}')"
+                class="p-1.5 text-slate-600 hover:text-indigo-600 rounded-lg hover:bg-slate-100"
+                title="Edit message"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+              </button>
+              ${lead.mapsLink ? `
+                <a 
+                  href="${lead.mapsLink}" 
+                  target="_blank" 
+                  class="p-1.5 text-rose-500 hover:text-rose-700 rounded-lg hover:bg-slate-100"
+                  title="Google Maps"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                </a>
+              ` : ''}
+            </div>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderApp() {
+      updateDashboardMetrics();
+      renderSectionTabs();
+      renderLocalityDropdown();
+
+      const visible = getVisibleLeads();
+      const emptyState = document.getElementById('emptyState');
+      const cardsGrid = document.getElementById('cardsGrid');
+      const tableWrapper = document.getElementById('tableWrapper');
+
+      if (visible.length === 0) {
+        emptyState.classList.remove('hidden');
+        cardsGrid.classList.add('hidden');
+        tableWrapper.classList.add('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+        if (currentView === 'cards') {
+          cardsGrid.classList.remove('hidden');
+          tableWrapper.classList.add('hidden');
+          renderLeadCards(visible);
+        } else {
+          cardsGrid.classList.add('hidden');
+          tableWrapper.classList.remove('hidden');
+          renderLeadTable(visible);
+        }
+      }
+    }
+
+    window.toggleLeadStatus = function(leadId) {
+      const idx = leads.findIndex(l => l.id === leadId);
+      if (idx !== -1) {
+        leads[idx].completed = !leads[idx].completed;
+        leads[idx].status = leads[idx].completed ? 'Completed' : 'New Lead';
+        saveData();
+        renderApp();
+        showToast(
+          leads[idx].completed ? `✓ Marked "${leads[idx].businessName}" as Completed` : `Marked "${leads[idx].businessName}" as Incomplete`,
+          leads[idx].completed ? 'success' : 'info'
+        );
+      }
+    };
+
+    window.handleWhatsAppDispatch = function(leadId) {
+      if (settings.autoCompleteOnSend) {
+        const idx = leads.findIndex(l => l.id === leadId);
+        if (idx !== -1 && !leads[idx].completed) {
+          leads[idx].completed = true;
+          leads[idx].status = 'Completed';
+          saveData();
+          setTimeout(() => renderApp(), 400);
+        }
+      }
+    };
+
+    window.copyLeadMessage = function(leadId) {
+      const lead = leads.find(l => l.id === leadId);
+      if (lead) {
+        copyText(lead.message || '', `Message copied for ${lead.businessName}!`);
+      }
+    };
+
+    window.deleteLead = function(leadId) {
+      const lead = leads.find(l => l.id === leadId);
+      const name = lead ? lead.businessName : 'Lead';
+      
+      // Inline gentle removal without blocking alert()
+      leads = leads.filter(l => l.id !== leadId);
+      saveData();
+      renderApp();
+      showToast(`Removed "${name}" from tracker`, 'info');
+    };
+
+    window.openMessageModal = function(leadId) {
+      const lead = leads.find(l => l.id === leadId);
+      if (!lead) return;
+
+      editingLeadId = leadId;
+      document.getElementById('modalLeadName').textContent = `Business: ${lead.businessName || 'Lead'}`;
+      document.getElementById('modalLeadPhone').textContent = lead.phone || '-';
+      document.getElementById('modalLeadLocality').textContent = lead.locality || '-';
+      document.getElementById('modalMessageContent').value = lead.message || '';
+
+      document.getElementById('messageModal').classList.remove('hidden');
+    };
+
+    function closeMessageModal() {
+      document.getElementById('messageModal').classList.add('hidden');
+      editingLeadId = null;
+    }
+
+    document.getElementById('btnCloseMessageModal').addEventListener('click', closeMessageModal);
+    
+    document.getElementById('btnSaveMessageDraft').addEventListener('click', () => {
+      if (!editingLeadId) return;
+      const idx = leads.findIndex(l => l.id === editingLeadId);
+      if (idx !== -1) {
+        leads[idx].message = document.getElementById('modalMessageContent').value;
+        saveData();
+        renderApp();
+        showToast('Message updated successfully!', 'success');
+        closeMessageModal();
+      }
+    });
+
+    document.getElementById('btnCopyFromModal').addEventListener('click', () => {
+      const text = document.getElementById('modalMessageContent').value;
+      copyText(text, 'Message copied from editor!');
+    });
+
+    document.getElementById('btnSendWhatsAppModal').addEventListener('click', () => {
+      if (!editingLeadId) return;
+      const lead = leads.find(l => l.id === editingLeadId);
+      if (!lead) return;
+
+      const currentMsg = document.getElementById('modalMessageContent').value;
+      lead.message = currentMsg; // Update lead message
+      saveData();
+
+      const waLink = generateWhatsAppLink(lead.phone, currentMsg);
+      handleWhatsAppDispatch(editingLeadId);
+      window.open(waLink, '_blank');
+      closeMessageModal();
+    });
+
+    const uploadModal = document.getElementById('uploadModal');
+    const fileInput = document.getElementById('fileInput');
+    const dropZone = document.getElementById('dropZone');
+
+    document.getElementById('btnOpenUploadModal').addEventListener('click', () => {
+      uploadModal.classList.remove('hidden');
+    });
+
+    document.getElementById('btnCloseUploadModal').addEventListener('click', () => {
+      uploadModal.classList.add('hidden');
+    });
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('border-emerald-600', 'bg-emerald-50/50');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('border-emerald-600', 'bg-emerald-50/50');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-emerald-600', 'bg-emerald-50/50');
+      if (e.dataTransfer.files.length) {
+        handleFileImport(e.dataTransfer.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length) {
+        handleFileImport(e.target.files[0]);
+      }
+    });
+
+    function handleFileImport(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const rawRows = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+
+          if (!rawRows || rawRows.length === 0) {
+            showToast('The selected file has no data rows!', 'error');
+            return;
+          }
+
+          const parsedLeads = rawRows.map((row, idx) => {
+            // Flexible column mapper that detects variations of column names
+            const findKey = (candidates) => {
+              for (const c of candidates) {
+                const found = Object.keys(row).find(k => k.trim().toLowerCase() === c.toLowerCase());
+                if (found) return row[found];
+              }
+              return '';
+            };
+
+            const bizName = findKey(['Business Name', 'Company Name', 'Business', 'Name', 'Title']);
+            const phone = findKey(['Phone Number', 'Phone', 'Mobile', 'Contact', 'WhatsApp Number', 'Whatsapp']);
+            const niche = findKey(['Business Niche', 'Niche', 'Category', 'Industry', 'Services']);
+            const locality = findKey(['Locality', 'Area', 'Location', 'City Zone']);
+            const address = findKey(['Address', 'Full Address', 'Street Address']);
+            const mapsLink = findKey(['Google Maps Link', 'Maps Link', 'Maps', 'Location Link', 'Google Maps']);
+            const statusRaw = findKey(['Status', 'Lead Status']);
+            const conversionAngle = findKey(['Conversion Angle', 'Angle', 'Pitch', 'Hook', 'Notes']);
+            const message = findKey([
+              'Personalized WhatsApp Message (Hinglish - Gujarati Tone)',
+              'Personalized WhatsApp Message',
+              'Personalized Message',
+              'WhatsApp Message',
+              'Message Script',
+              'Script',
+              'Message'
+            ]);
+            const dateAdded = findKey(['Date Added', 'Date', 'Added On']) || new Date().toISOString().split('T')[0];
+
+            const isDone = String(statusRaw).toLowerCase().includes('completed') ||
+                           String(statusRaw).toLowerCase().includes('contacted') ||
+                           String(statusRaw).toLowerCase().includes('done');
+
+            return {
+              id: 'imported-' + Date.now() + '-' + idx,
+              dateAdded: dateAdded,
+              businessName: bizName || `Lead #${idx + 1}`,
+              phone: phone,
+              niche: niche,
+              locality: locality,
+              address: address,
+              mapsLink: mapsLink,
+              status: isDone ? 'Completed' : 'New Lead',
+              completed: isDone,
+              conversionAngle: conversionAngle,
+              message: message || `Kem cho sir! Vadodara ma tamara business mate custom website and automated WhatsApp system create kariye chiye. Can we connect?`
+            };
+          });
+
+          const importMode = document.querySelector('input[name="importMode"]:checked').value;
+          if (importMode === 'replace') {
+            leads = parsedLeads;
+          } else {
+            leads = [...leads, ...parsedLeads];
+          }
+
+          saveData();
+          activeSection = 0;
+          renderApp();
+          uploadModal.classList.add('hidden');
+          fileInput.value = '';
+          showToast(`Successfully loaded ${parsedLeads.length} leads!`, 'success');
+
+        } catch (err) {
+          console.error(err);
+          showToast('Failed to parse file. Ensure it is a valid Excel or CSV.', 'error');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    document.getElementById('btnExportData').addEventListener('click', () => {
+      if (leads.length === 0) {
+        showToast('No leads available to export!', 'error');
+        return;
+      }
+
+      // Structure rows exactly mirroring the format
+      const exportRows = leads.map(l => ({
+        'Date Added': l.dateAdded || '',
+        'Business Name': l.businessName || '',
+        'Phone Number': l.phone || '',
+        'Business Niche': l.niche || '',
+        'Locality': l.locality || '',
+        'Address': l.address || '',
+        'Google Maps Link': l.mapsLink || '',
+        'Status': l.completed ? 'Completed' : 'New Lead',
+        'Conversion Angle': l.conversionAngle || '',
+        'Personalized WhatsApp Message (Hinglish - Gujarati Tone)': l.message || ''
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(exportRows);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Vadodara Leads');
+      
+      const fileName = `Vadodara_Leads_Tracked_${new Date().toISOString().split('T')[0]}.xlsx`;
+      XLSX.writeFile(workbook, fileName);
+      showToast(`Exported ${leads.length} leads to ${fileName}!`, 'success');
+    });
+
+    const addLeadModal = document.getElementById('addLeadModal');
+    const addLeadForm = document.getElementById('addLeadForm');
+
+    document.getElementById('btnOpenAddModal').addEventListener('click', () => {
+      document.getElementById('newDateAdded').value = new Date().toISOString().split('T')[0];
+      addLeadModal.classList.remove('hidden');
+    });
+
+    document.getElementById('btnCloseAddModal').addEventListener('click', () => {
+      addLeadModal.classList.add('hidden');
+    });
+
+    document.getElementById('btnCancelAddLead').addEventListener('click', () => {
+      addLeadModal.classList.add('hidden');
+    });
+
+    addLeadForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newLead = {
+        id: 'lead-' + Date.now(),
+        dateAdded: document.getElementById('newDateAdded').value,
+        businessName: document.getElementById('newBizName').value.trim(),
+        phone: document.getElementById('newPhone').value.trim(),
+        niche: document.getElementById('newNiche').value.trim(),
+        locality: document.getElementById('newLocality').value.trim(),
+        address: document.getElementById('newAddress').value.trim(),
+        mapsLink: document.getElementById('newMapsLink').value.trim(),
+        status: 'New Lead',
+        completed: false,
+        conversionAngle: document.getElementById('newConversionAngle').value.trim(),
+        message: document.getElementById('newMessage').value.trim() || `Kem cho sir, Namaste! Vadodara ma tamara business mate custom website development mate call schedule kariye?`
+      };
+
+      leads.unshift(newLead);
+      saveData();
+      renderApp();
+      addLeadModal.classList.add('hidden');
+      addLeadForm.reset();
+      showToast(`Added "${newLead.businessName}" to Section 1!`, 'success');
+    });
+
+    // Search listener
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      currentSearch = e.target.value.trim();
+      renderApp();
+    });
+
+    // Locality listener
+    document.getElementById('localityFilterSelect').addEventListener('change', (e) => {
+      currentLocality = e.target.value;
+      renderApp();
+    });
+
+    // Status filter buttons
+    document.querySelectorAll('.status-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.status-filter-btn').forEach(b => {
+          b.className = 'status-filter-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900';
+        });
+        btn.className = 'status-filter-btn px-3 py-1.5 rounded-lg bg-white text-slate-900 shadow-2xs font-semibold';
+        currentFilter = btn.dataset.filter;
+        renderApp();
+      });
+    });
+
+    // View switcher buttons
+    document.getElementById('btnViewCards').addEventListener('click', () => {
+      currentView = 'cards';
+      document.getElementById('btnViewCards').className = 'p-1.5 rounded-lg bg-white text-slate-800 shadow-2xs';
+      document.getElementById('btnViewTable').className = 'p-1.5 rounded-lg text-slate-600 hover:text-slate-900';
+      renderApp();
+    });
+
+    document.getElementById('btnViewTable').addEventListener('click', () => {
+      currentView = 'table';
+      document.getElementById('btnViewTable').className = 'p-1.5 rounded-lg bg-white text-slate-800 shadow-2xs';
+      document.getElementById('btnViewCards').className = 'p-1.5 rounded-lg text-slate-600 hover:text-slate-900';
+      renderApp();
+    });
+
+    // Auto-mark complete toggle
+    document.getElementById('autoCompleteOnWhatsApp').addEventListener('change', (e) => {
+      settings.autoCompleteOnSend = e.target.checked;
+      saveSettings();
+      showToast(settings.autoCompleteOnSend ? 'Auto-complete on Send enabled' : 'Auto-complete on Send disabled');
+    });
+
+    // Reset to demo data
+    document.getElementById('btnResetData').addEventListener('click', () => {
+      leads = JSON.parse(JSON.stringify(DEFAULT_LEADS));
+      saveData();
+      activeSection = 0;
+      currentFilter = 'all';
+      currentSearch = '';
+      currentLocality = '';
+      document.getElementById('searchInput').value = '';
+      renderApp();
+      showToast('Loaded fresh Vadodara demo dataset with 35 leads across 2 sections!', 'success');
+    });
+
+    document.getElementById('btnEmptyReset').addEventListener('click', () => {
+      currentFilter = 'all';
+      currentSearch = '';
+      currentLocality = '';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('localityFilterSelect').value = '';
+      document.querySelectorAll('.status-filter-btn').forEach((b, i) => {
+        b.className = i === 0 
+          ? 'status-filter-btn px-3 py-1.5 rounded-lg bg-white text-slate-900 shadow-2xs font-semibold' 
+          : 'status-filter-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900';
+      });
+      renderApp();
+    });
+
+    // Helper HTML escaper
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedData();
+      renderApp();
+    });
+  </script>
+</body>
+</html>
